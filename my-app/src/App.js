@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import agent from './agent';
 import logo from './logo.svg';
 import './App.css';
@@ -15,8 +15,12 @@ import { APP_LOAD, REDIRECT } from './constants/actionTypes';
 
 
 import Header from './components/Header';
+import Footer from './components/Footer';
+
 import Home from './components/Home';
- import Login from './components/Login';
+import Login from './components/Login';
+import Register from './components/Register';
+import About from './components/About';
 
 const mapStateToProps = state => ({
   appLoaded: state.common.appLoaded,
@@ -34,9 +38,7 @@ const mapDispatchToProps = dispatch => ({
 
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-}
+  
   componentWillReceiveProps(nextProps) {
     if (nextProps.redirectTo) {
       this.context.router.replace(nextProps.redirectTo);
@@ -50,51 +52,34 @@ class App extends Component {
       agent.setToken(token);
     }
 
-   this.props.onLoad(token ? agent.Auth.current() : null, token);
+    this.props.onLoad(token ? agent.Auth.current() : null, token);
   }
 
   render() {
-
-    return (
+    if (this.props.appLoaded) {
+      <div>
+      <Header
+        appName={this.props.appName}
+        currentUser={this.props.currentUser} />
+      {this.props.children}
+    </div>
+      {this.props.children}
+    }
+return (
+ 
+  <Router>
     
-<div>
-
-<Router>
- 
-<Header
-            appName={this.props.appName}
-            currentUser={this.props.currentUser} />
- 
     <div>
-      <ul>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/about">About</Link>
-        </li>
-        <li>
-          <Link to="/topics">Topics</Link>
-        </li>
-        <li>
-          <Link to="/login">Login</Link>
-        </li>
-      </ul>
-
-      <hr />
-      <Switch>
-      
+    <Header   appName={this.props.appName}          currentUser={this.props.currentUser} />      
       <Route exact path="/" component={Home} />
-      <Route path="/about" component={About} />
-      <Route path="/topics" component={Topics} />
       <Route path="/login" component={Login} />
-      </Switch>
+      <Route path="/register" component={Register} />
+      <Route path="/about" component={About} />
+     <Footer />
     </div>
   </Router>
-
-</div>
-
-    );
+)
+   
   }
 }
 
@@ -103,11 +88,6 @@ App.contextTypes = {
 };
  
 
-const About = () => (
-  <div>
-    <h2>About</h2>
-  </div>
-);
 
 const Topics = ({ match }) => (
   <div>
@@ -140,5 +120,5 @@ const Topic = ({ match }) => (
 );
 
 
-// export default App;
+ // export default App;
   export default connect(mapStateToProps, mapDispatchToProps)(App);

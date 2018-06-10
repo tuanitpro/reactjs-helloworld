@@ -20,6 +20,8 @@ const requests = {
     superagent.del(`${API_ROOT}${url}`).use(tokenPlugin).then(responseBody),
   get: url =>
     superagent.get(`${API_ROOT}${url}`).use(tokenPlugin).then(responseBody),
+ wp_get: url =>
+    superagent.get(`${url}`).use(tokenPlugin).then(responseBody),
   put: (url, body) =>
     superagent.put(`${API_ROOT}${url}`, body).use(tokenPlugin).then(responseBody),
   post: (url, body) =>
@@ -86,11 +88,16 @@ const Profile = {
     requests.del(`/profiles/${username}/follow`)
 };
 
+const About = {
+    get: body => requests.wp_get('http://tuanitpro.com/wp-json/wp/v2/pages/2')
+};
+
 export default {
   Articles,
   Auth,
   Comments,
   Profile,
   Tags,
+  About,
   setToken: _token => { token = _token; }
 };

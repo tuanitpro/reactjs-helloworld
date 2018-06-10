@@ -14,7 +14,9 @@ import {
     PROFILE_FAVORITES_PAGE_UNLOADED,
     SETTINGS_PAGE_UNLOADED,
     LOGIN_PAGE_UNLOADED,
-    REGISTER_PAGE_UNLOADED
+    REGISTER_PAGE_UNLOADED,
+    ABOUT, 
+    CONTACT
   } from '../constants/actionTypes';
   
   const defaultState = {
@@ -63,6 +65,8 @@ import {
       case SETTINGS_PAGE_UNLOADED:
       case LOGIN_PAGE_UNLOADED:
       case REGISTER_PAGE_UNLOADED:
+      case ABOUT:
+      case CONTACT:
         return { ...state, viewChangeCounter: state.viewChangeCounter + 1 };
       default:
         return state;

@@ -13,6 +13,12 @@ const LoggedOutView = props => {
         </li>
 
         <li className="nav-item">
+          <Link to="about" className="nav-link">
+            About
+          </Link>
+        </li>
+
+        <li className="nav-item">
           <Link to="login" className="nav-link">
             Sign in
           </Link>
@@ -21,6 +27,12 @@ const LoggedOutView = props => {
         <li className="nav-item">
           <Link to="register" className="nav-link">
             Sign up
+          </Link>
+        </li>
+
+        <li className="nav-item">
+          <Link to="contact" className="nav-link">
+            Contact
           </Link>
         </li>
 
@@ -74,8 +86,14 @@ class Header extends React.Component {
     return (
       <nav className="navbar navbar-light">
         <div className="container">
-Chào tuấn
-<Link to  = "/">AA</Link>
+
+          <Link to="/" className="navbar-brand">
+            {this.props.appName.toLowerCase()}
+          </Link>
+
+          <LoggedOutView currentUser={this.props.currentUser} />
+
+          <LoggedInView currentUser={this.props.currentUser} />
         </div>
       </nav>
     );
